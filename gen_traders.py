@@ -56,7 +56,7 @@ def parse_condition(s):
 
 def slugify(text):
     """GitHub-style anchor slug: lowercase, keep Unicode letters/digits, spaces -> hyphens."""
-    s = re.sub(r'\W', ' ', text.lower())   # \W is Unicode-aware: keeps Cyrillic letters + underscores; turns other punct into spaces
+    s = re.sub(r'[^\w\s]', '', text.lower())   # Unicode-aware: keeps Cyrillic letters + underscores; strips other punct with no gap
     s = re.sub(r'_', '_', s)                # keep underscores (GitHub preserves them)
     s = re.sub(r'\s+', '-', s)             # collapse whitespace -> single hyphens
     return s.strip('-')

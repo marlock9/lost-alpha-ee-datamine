@@ -1,0 +1,16 @@
+{
+	"code":"2300191E79362D3EA899AF24BA21BE46076B8B75C20837A6C6164635F7275735F766F696365A5B569E987165E9733152E4F7A7F679902AB065FABD4FBF7717672DC894626C237E55538F7F0704DFDC4F55598E1C3D1173AB70EFD955221E4EF18A4BAA4A4A1F48E0E0EA9E86A15473F684FC864AE1A1D83E9912BE8727663F9FA576D6EA3094C11628BA1F527485",
+	
+	"name": "ladc_rus_voice",
+    "version": "1.0",
+    "author": "LAEE",
+	
+    "name_ru": "Русская озвучка",
+    "description_ru": "Русская озвучка",
+    "name_en": "Russian voice",
+	"description_en": "Russian voice",
+	
+    "needNewGame": 0,
+    "needMods": [],
+    "conflictMods": []
+}

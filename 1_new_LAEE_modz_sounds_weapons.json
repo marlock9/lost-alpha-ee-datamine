@@ -1,0 +1,16 @@
+{
+	"code":"2D201B1C79B5C67B8D30C9835B7634974E8EBEEFD185C817E417C18A5BA7EA00270833D3C8A722EC63A3B09A93D23D8E855738F4C6974B1E09E1ABAE37F63CF01E397F8188A34CDA421E8783388E89121EF920C520D00BDB8B41F82A7BCA30616EE6855971EC19D126E65775F4C4145455F6D6F647A5F736F756E64735F776561706F6E73999F730CC110CC1F8",
+	
+	"name": "new_LAEE_modz_sounds_weapons",
+    "version": "1.03",
+    "author": "Арсений Король",
+	
+    "name_ru": "Звуки оружия",
+    "description_ru": "Мод изменяет звуки оружия в игре, делая их более реалистичными и насыщенными.",
+    "name_en": "Weapon Sounds",
+	"description_en": "The mod changes weapon sounds in the game, making them more realistic and immersive.",
+	
+    "needNewGame": 0,
+    "needMods": [],
+    "conflictMods": []
+}

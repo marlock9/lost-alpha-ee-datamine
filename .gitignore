@@ -1,0 +1,9 @@
+gamedata/
+__pycache__/
+*.xdb*
+Temp/
+*.tsv
+converter.exe
+converter.ini
+fsconverter.ltx
+fsconverter_cs-cop.ltx

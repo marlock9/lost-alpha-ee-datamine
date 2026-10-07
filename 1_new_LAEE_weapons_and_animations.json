@@ -1,0 +1,16 @@
+{
+	"code":"2E501D2D8852B42B37564C35407480A948278563897D75933207D9CDEB222877009BEF420B02A7289770C5E2DAD020142519F7594596CB809A0955B7634D61665079E4E8AB10B7306356EA673454419E1FB6A0A85E46896BBF90EB785ACCC74623A0DD9C1ABE42E0E4903143BF2891FFA97D6E65775F4C4145455F776561706F6E735F616E645F616E696D6174696F6E73E47DA41F74FEAA4B2564DDBA3436E126D17CAFC7B9B4D190AB11080FA11A6AB1C46C5A0EEEEF496A20447048C8850512A92DDC8F9FBE74BFF7E34BF52479E6E243451F7915AEB8B87AA261BA6",
+	
+	"name": "new_LAEE_weapons_and_animations",
+    "version": "1.03",
+    "author": "Дима Цыгарев",
+	
+    "name_ru": "Патч до версии 1.3: оружия, модели, анимации",
+    "description_ru": "Большое крупное обновление оружейной составляющей, новые анимации, модели, правки ошибок",
+    "name_en": "Patch to version 1.3: weapons, models, animations",
+	"description_en": "A major large-scale update to the weapon system, new animations, models, bug fixes",
+	
+    "needNewGame": 0,
+    "needMods": [],
+    "conflictMods": []
+}

@@ -1,0 +1,16 @@
+{
+	"code":"27501D2C43AE34FE68F3E2E25EDB889358CFB689BE59218EA540DEE38C60AD55CBD6A76B0960A8BFA20414DA6E6A8132ED1E9B46C90B89A64C6F6E65775F4C4145455F6D6F647A5F686172645F6E7073A4699442B2C2C",
+	
+	"name": "new_LAEE_modz_hard_nps",
+    "version": "1.02",
+    "author": "LAEE",
+	
+    "name_ru": "Усложнение интеллекта у НПС",
+    "description_ru": "Мод на усложнение интеллекта у НПС, видят лучше, более опасные противники",
+    "name_en": "Increased NPC intelligence",
+	"description_en": "A mod that enhances NPC intelligence — they see better and are more dangerous opponents",
+	
+    "needNewGame": 0,
+    "needMods": [],
+    "conflictMods": []
+}

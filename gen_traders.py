@@ -12,18 +12,10 @@ ALL_BUY_CATEGORIES = []
 ALL_SELL_CATEGORIES = []
 
 # Discount condition name -> Russian meaning (authoritative; corrected by user).
-CONDITIONS = {
-    'old_farm_bandit_hit': 'Игрок атаковал базу бандитов первым',
-    'actor_in_dolg': 'Игрок стоит в "Долге"',
-    'actor_in_freedom': 'Игрок состоит в "Свободе"',
-    'out_lukash_task_complete': 'Выполнены квесты Лукаша',
-    'forg_fuel_task_complete': 'Выполнено задание на подрыв бочек в Тёмной Лощине',
-    'forg_mill_gauss_box_done': 'Выполнено задание на доставку Гаусс-бокса',
-    'bar_last_job_done': 'Выполнено последнее задание для "Долга"',
-    'out_barman_x7_switcher_talked': 'Бороде сообщено об отключении X-7',
-}
+from cond_map import INFOPORTIONS  # single source of truth for all infoportion names
 
-# ---- Trader nice names + locations (static map of LAEE traders; no discovery) ----
+from loc_map import resolve
+
 # Each entry: (npc_class, name_key, russian_name, location). Names come from stable_bio_name.xml.
 TRADERS = {
     'trade_bandit':        ('old_farm_bandit_trader',  'bandit_huckster_name',       'Торгаш',         'Старая дорога'),
@@ -78,10 +70,10 @@ def render_conditions(disc):
         if not d.get('condition'):
             continue
         for op, name in parse_condition(d['condition']):
-            if name not in CONDITIONS or (op, name) in seen:
+            if name not in INFOPORTIONS or (op, name) in seen:
                 continue
             seen.add((op, name))
-            meaning = CONDITIONS[name]
+            meaning = INFOPORTIONS[name]
             if op in ('-', '!'):
                 meaning = negate(meaning)
             out.append((op, name, meaning))
@@ -174,20 +166,6 @@ def item_ltx(id):
     if _ITEM_SECTIONS is None:
         _ITEM_SECTIONS = _load_item_sections()
     return _ITEM_SECTIONS.get(id, {'body': {}, 'parent': None})
-
-
-STAGE_CONDITION_NAMES = {
-    'esc_rescue_fox_done':        'Лис спасён',
-    'agr_gunslinger_flash_have':  'Найдена флешка Стрелка',
-    'dar_barman_has_all_x18_docs':'Все документы из X-18 доставлены Бармену',
-    'yan_good_helmet_start':      'Получен настроенный пси-шлем',
-    'yan_scientist_package_done': 'Пройдены все квесты учёных на Янтаре',
-    'x16_main_power_disabled':    'Отключена установка в X-16',
-    'deactivate_radar_done':      'Отключена установка в X-10',
-    'bas_switcher_off':           'Отключена установка в X-7',
-    'bar_forg_rg6_given':         'Пройдены все квесты Долга',
-    'has_freeplay_info':          'Фриплей',
-}
 
 
 FALLBACKS = {}
@@ -810,7 +788,7 @@ def build_trader_markdown(data, cats=None):
                     op = ''
                     if raw and raw[0] in '+-=!':
                         op, raw = raw[0], raw[1:]
-                    nice = STAGE_CONDITION_NAMES.get(raw, raw)
+                    nice = INFOPORTIONS.get(raw, raw)
                     lines.append(f"- `{op}{raw}` — {nice}")
                 lines.append('')
             items = stage.get('items', {})

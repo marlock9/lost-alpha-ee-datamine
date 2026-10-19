@@ -1,68 +1,48 @@
 # loc_map.py
-# Location names for the LAEE mod. SINGLE source of truth:
-#   config/misc/treasure_manager.ltx   (cache drop zones grouped by location)
-# Nothing else is consulted here.
+# Location names for the LAEE mod. SINGLE source of truth: the canonical Russian
+# location name -> every tech/cache/anomaly prefix used under it. Previously parsed
+# from config/misc/treasure_manager.ltx; now a complete static map, like cond_map.py.
+# Nothing else is consulted here — add a new entry the first time a prefix is found.
+# Unknown prefixes simply return None from name_for(); do not invent locations.
 
-import re
+LOC_PREFIXES = {
+    # ---- config cache drop zones (treasure_manager.ltx) ----
+    'Кордон': ['esc', 'escape'],
+    'Свалка': ['gar'],
+    'Тёмная Долина': ['dol', 'dolina'],
+    'Бар': ['bar', 'secret'],
+    'Армейские склады': ['mil', 'army'],
+    'Янтарь': ['yan'],
+    'Радар': ['rad', 'radar'],
+    'Мёртвый город': ['cit'],
+    'Тёмная лощина': ['ds'],
+    'Металлургический завод': ['rosf'],
+    'Большие болота': ['swa', 'swamp'],
+    'Окрестности припяти': ['out'],
+    'Цементный завод': ['lost'],
+    'Стройплощадка': ['forg'],
+    'Припять': ['pri', 'pry'],
+    'ЧАЭС': ['aes'],
+    'Лес': ['forest', 'fore'],
+    'Северные холмы': ['bcr'],
+    'Старая дорога': ['old'],
+    'НИИ \'Агропром\'': ['agr'],
 
-TM = open('gamedata/config/misc/treasure_manager.ltx', encoding='utf-8').read()
-HEADER = re.compile(r';\s*-{2,}\s*(.+?)\s*-{2,}\s*$')
-SECTION = re.compile(r'\[([a-z_]+)_')
-
-# 1) location header -> set of cache prefixes used under it (derived from config)
-loc_prefixes = {}
-cur = None
-for ln in TM.split('\n'):
-    hm = HEADER.match(ln)
-    if hm:
-        cur = hm.group(1).strip()
-        loc_prefixes.setdefault(cur, set())
-        continue
-    sm = SECTION.match(ln.strip())
-    if sm and cur:
-        loc_prefixes[cur].add(sm.group(1).split('_')[0])
-
-# 2) every canonical location name present in the config
-LOCATIONS = dict(loc_prefixes)
-
-def parse_treasure_prefixes():
-    """{location_name: [tech prefixes]} — cache prefixes derived from the config,
-       listed under their Russian location name. Single source of truth."""
-    return {n: sorted(ps) for n, ps in loc_prefixes.items()}
-
-# 3) anomaly-zone id prefix -> location. Some anomaly ids were NOT named after
-#    the config's cache prefix (anomaly ids use 'army' while the config uses
-#    'mil'). These renamed pairs are listed explicitly per location so the
-#    correspondence is self-documenting — no separate implicit bridge. Every
-#    other anomaly prefix already matches a cache prefix above, needs nothing.
-ANOM_ALIASES = {
-    'Кордон': ['escape'],
-    'Армейские склады': ['army'],
-    'Тёмная Долина': ['dol'],
-    'Большие болота': ['swamp'],
-    'Радар': ['radar'],
-    'Припять': ['pry'],
-    'Лес': ['fore'],
+    # ---- provenance notes ----
+    # escape/army/dol/swamp/radar/pry/fore are anomaly-zone aliases added to the
+    # config lists (they never replace real stash prefixes like mil/gar/swa).
+    # 'agr' was read from under "Свалка" but belongs to НИИ "Агропром".
 }
 
-# 4) THE location map: Russian name -> all tech prefixes (cache + anomaly).
-#    ANOM_ALIASES only ADDS anomaly-zone aliases to the config-derived lists; it
-#    must not replace them, otherwise real stash prefixes (e.g. 'mil') get dropped.
-LOC_PREFIXES = {**parse_treasure_prefixes()}
-for loc, pfxs in ANOM_ALIASES.items():
-    for p in pfxs:
-        if p not in LOC_PREFIXES.setdefault(loc, []):
-            LOC_PREFIXES[loc].append(p)
+LOCATIONS = dict(LOC_PREFIXES)
 
-# relocate: the agr_ cache prefix sits under a "Свалка" comment header in
-# treasure_manager.ltx, but it actually belongs to НИИ "Агропром". Pull it out of
-# Свалка and register it under its true location.
-if 'agr' in LOC_PREFIXES.get('Свалка', []):
-    LOC_PREFIXES['Свалка'].remove('agr')
-LOC_PREFIXES['НИИ \'Агропром\''] = ['agr']
+def parse_treasure_prefixes():
+    """{location_name: [tech prefixes]} — the full static location map.
+       Single source of truth for locations and their prefixes."""
+    return {n: list(ps) for n, ps in LOC_PREFIXES.items()}
 
 def name_for(prefix):
-    """anomaly-zone prefix -> canonical location name, or None if not in config.
+    """anomaly-zone prefix -> canonical location name, or None if not in map.
        Resolves by checking whether the prefix is present in a location's list."""
     for loc, pfxs in LOC_PREFIXES.items():
         if prefix in pfxs:
@@ -70,5 +50,5 @@ def name_for(prefix):
     return None
 
 def resolve(name):
-    """Normalize any location string to its canonical form (config names only)."""
+    """Normalize any location string to its canonical form (map names only)."""
     return name if name in LOCATIONS else name
